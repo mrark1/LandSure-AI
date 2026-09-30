@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LANDSURE AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+
+        <div class="logo">
+            LS
+        </div>
+
+        <div>
+            <h2>LANDSURE AI</h2>
+            <span>Intelligent Land Record System</span>
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <span class="secure">
+            ● Secure Government Prototype
+        </span>
+
+    </div>
+
+</header>
+
+
+<nav>
+
+    <a href="{{ url_for('dashboard') }}">
+        Dashboard
+    </a>
+
+    <a href="#records">
+        Land Records
+    </a>
+
+    <a href="#map">
+        GIS Map
+    </a>
+
+    <a href="#audit">
+        Audit Trail
+    </a>
+
+</nav>
+
+
+<main>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+</main>
+
+
+<footer>
+
+    <span>LANDSURE AI</span>
+
+    <span>SIH 2026 • SIH26018</span>
+
+</footer>
+
+</body>
+
+</html>

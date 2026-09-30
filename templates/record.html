@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="record-page">
+
+    <div class="record-header">
+
+        <div>
+
+            <span class="tag">
+                AI EXTRACTION RESULT
+            </span>
+
+            <h1>
+                Land Record #{{ record["id"] }}
+            </h1>
+
+            <p>
+                {{ record["filename"] }}
+            </p>
+
+        </div>
+
+        <div class="score">
+
+            <span>AI Confidence</span>
+
+            <strong>
+                {{ record["confidence"] }}%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <section class="panel">
+
+        <h2>Extracted Land Information</h2>
+
+        <div class="fields">
+
+            <div>
+                <label>Land Owner</label>
+                <strong>{{ record["owner"] }}</strong>
+            </div>
+
+            <div>
+                <label>Khasra Number</label>
+                <strong>{{ record["khasra"] }}</strong>
+            </div>
+
+            <div>
+                <label>Khata Number</label>
+                <strong>{{ record["khata"] }}</strong>
+            </div>
+
+            <div>
+                <label>Plot Area</label>
+                <strong>{{ record["area"] }}</strong>
+            </div>
+
+            <div>
+                <label>Village</label>
+                <strong>{{ record["village"] }}</strong>
+            </div>
+
+            <div>
+                <label>Tehsil</label>
+                <strong>{{ record["tehsil"] }}</strong>
+            </div>
+
+            <div>
+                <label>District</label>
+                <strong>{{ record["district"] }}</strong>
+            </div>
+
+            <div>
+                <label>Validation</label>
+                <strong>{{ record["validation"] }}</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+        <h2>Human Verification</h2>
+
+        <p>
+            Review extracted information before
+            adding the record to the verified database.
+        </p>
+
+        {% if record["status"] != "Verified" %}
+
+        <form
+            action="{{ url_for('verify', record_id=record['id']) }}"
+            method="POST">
+
+            <button class="verify-button">
+                ✓ Approve & Verify Record
+            </button>
+
+        </form>
+
+        {% else %}
+
+        <div class="verified">
+            ✓ Record Verified Successfully
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <a href="{{ url_for('dashboard') }}"
+       class="back">
+
+        ← Back to Dashboard
+
+    </a>
+
+</div>
+
+{% endblock %}

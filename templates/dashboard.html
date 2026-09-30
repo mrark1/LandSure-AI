@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div>
+
+        <span class="tag">
+            SMART AUTOMATION
+        </span>
+
+        <h1>
+            Intelligent Land Record
+            Digitization & Validation
+        </h1>
+
+        <p>
+            AI-assisted extraction, validation and
+            human verification of legacy land records.
+        </p>
+
+    </div>
+
+    <div class="upload-box">
+
+        <h3>Process Land Document</h3>
+
+        <form action="{{ url_for('upload') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file"
+                   name="document"
+                   required>
+
+            <button type="submit">
+                Process with AI
+            </button>
+
+        </form>
+
+        <small>
+            PDF • Image • TXT
+        </small>
+
+    </div>
+
+</section>
+
+
+<section class="stats">
+
+    <div class="stat-card">
+
+        <span>Documents Processed</span>
+
+        <strong>{{ total }}</strong>
+
+        <small>AI pipeline</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>Extraction Accuracy</span>
+
+        <strong>{{ accuracy }}%</strong>
+
+        <small>Average confidence</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>Pending Verification</span>
+
+        <strong>{{ pending }}</strong>
+
+        <small>Human review</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>Validation Errors</span>
+
+        <strong>{{ errors }}</strong>
+
+        <small>Rule checks</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>Verified Records</span>
+
+        <strong>{{ verified }}</strong>
+
+        <small>Approved</small>
+
+    </div>
+
+</section>
+
+
+<section class="panel" id="records">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>Land Records</h2>
+
+            <p>
+                AI extracted structured information
+            </p>
+
+        </div>
+
+        <form action="{{ url_for('search') }}"
+              method="GET">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search owner / khasra / village..."
+            >
+
+            <button>
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Owner</th>
+
+                    <th>Khasra</th>
+
+                    <th>Area</th>
+
+                    <th>Village</th>
+
+                    <th>District</th>
+
+                    <th>Confidence</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for record in records %}
+
+                <tr>
+
+                    <td>
+                        #{{ record["id"] }}
+                    </td>
+
+                    <td>
+                        <b>{{ record["owner"] }}</b>
+                    </td>
+
+                    <td>
+                        {{ record["khasra"] }}
+                    </td>
+
+                    <td>
+                        {{ record["area"] }}
+                    </td>
+
+                    <td>
+                        {{ record["village"] }}
+                    </td>
+
+                    <td>
+                        {{ record["district"] }}
+                    </td>
+
+                    <td>
+
+                        <div class="confidence">
+
+                            <div class="progress">
+
+                            <div
+                            style="width: {{ record.confidence }}%;">
+                            </div>
+
+                            </div>
+
+                            {{ record["confidence"] }}%
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <a class="status-link"
+                           href="{{ url_for('record', record_id=record['id']) }}">
+
+                            {{ record["status"] }}
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="8"
+                        class="empty">
+
+                        No land records yet.
+                        Upload a document to start.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<section class="two-column">
+
+    <div class="panel" id="map">
+
+        <h2>GIS / Cadastral Map</h2>
+
+        <p>
+            Prototype map layer for future
+            cadastral and parcel integration.
+        </p>
+
+        <div class="map">
+
+            <div class="parcel p1">
+                P-245
+            </div>
+
+            <div class="parcel p2">
+                P-246
+            </div>
+
+            <div class="parcel p3">
+                P-247
+            </div>
+
+            <div class="parcel p4">
+                P-248
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel" id="audit">
+
+        <h2>AI Validation Pipeline</h2>
+
+        <div class="pipeline">
+
+            <div>
+                <b>01</b>
+                OCR / Document Input
+            </div>
+
+            <div>
+                <b>02</b>
+                Field Extraction
+            </div>
+
+            <div>
+                <b>03</b>
+                Rule Validation
+            </div>
+
+            <div>
+                <b>04</b>
+                Confidence Scoring
+            </div>
+
+            <div>
+                <b>05</b>
+                Human Verification
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
